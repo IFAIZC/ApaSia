@@ -13,12 +13,7 @@
 <h3>Age</h3>
 <p>{{ user_profile.age }}</p>
 
-<h2>Update Your Profile</h2>
-<form method="POST" action="{% url 'profile_page' %}">
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit">Update</button>
-</form>
+<a href="{% url 'update_profile' %}">Update Profile</a>
 
 <!--To Add profile picture--->
 

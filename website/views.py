@@ -62,3 +62,21 @@ def edit_post(request, pk):
         form = PostForm(instance=posting)
         
     return render(request, 'edit_post.html', {'form': form, 'posting': posting})
+
+@login_required(login_url='login_user')
+def update_profile(request):
+    user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile_page')
+    else:
+        form = UserProfileForm(instance=user_profile)
+        
+    context = {
+        'form': form,
+        'user_profile': user_profile
+    }
+    return render(request, 'update_profile.html', context)
