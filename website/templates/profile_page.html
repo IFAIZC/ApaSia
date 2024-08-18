@@ -1,20 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<h1>Hello {{ user.username }} !</h1>
-
-<h3>Bio</h3>
-<p>{{ user_profile.bio }}</p>
-
-<h3>Occupation</h3>
-<p>{{ user_profile.occupation }}</p>
-
-<h3>Age</h3>
-<p>{{ user_profile.age }}</p>
-
-<a href="{% url 'update_profile' %}">Update Profile</a>
-
-<!--To Add profile picture--->
-
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white text-center">
+            <h4>Hello, {{ user.username }}!</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- Profile Info Section -->
+                <div class="col-md-8">
+                    <h3 class="text-primary">Bio</h3>
+                    <p class="text-muted">{{ user_profile.bio }}</p>
+                    
+                    <h3 class="text-primary">Occupation</h3>
+                    <p class="text-muted">{{ user_profile.occupation }}</p>
+                    
+                    <h3 class="text-primary">Age</h3>
+                    <p class="text-muted">{{ user_profile.age }}</p>
+                    
+                    <a href="{% url 'update_profile' %}" class="btn btn-primary btn-block mt-4">Update Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

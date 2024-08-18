@@ -1,16 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Home Feeds</h2>
 
-<h1>Home Feeds</h1>
+     <!-- New post form *but not functional yet-->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form>
+                <div class="mb-3">
+                    <textarea class="form-control border-0" rows="3" placeholder="What's happening?"></textarea>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     {% for post in posts %}
-        <h5>{{ post.user.username }}</h5>
-        <h6>{{ post.created_at|date:"F j, Y, g:i a" }}</h6>
-        <p>{{ post.content }}</p>
-        
-        <a href="{% url 'edit_post' post.pk %}">Edit</a>
-        <a href="{% url 'delete_post' post.pk %}">Delete</a>
-    {% endfor %}
-{% endblock %}
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h6 class="card-title mb-0">{{ post.user.username }}</h6>
+                    <small class="text-muted">{{ post.created_at|date:"F j, Y, g:i a" }}</small>
+                </div>
+                <p class="card-text">{{ post.content }}</p>
+                <div class="d-flex justify-content-end mt-3">
 
+                    <!-- Just added comment section *but not functional yet-->
+                    <a href="#" class="btn btn-sm btn-outline-success me-2">Comment</a>
+                    {% if post.user == request.user %}
+                    <a href="{% url 'edit_post' post.pk %}" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                    <a href="{% url 'delete_post' post.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="alert alert-info" role="alert">
+            No posts available. Be the first to share something!
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
