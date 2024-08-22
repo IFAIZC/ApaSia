@@ -18,3 +18,4 @@ class Posting(models.Model):
     
     def __str__(self):
         return self.content[:500]
+    
