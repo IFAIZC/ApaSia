@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import UserProfile, Posting
 from .forms import UserProfileForm, PostForm
+from django.http import JsonResponse
+
 
 @login_required(login_url='login_user')
 def home(request):
@@ -80,3 +82,19 @@ def update_profile(request):
         'user_profile': user_profile
     }
     return render(request, 'update_profile.html', context)
+
+@login_required(login_url='login_user')
+def like_post(request, pk):
+    posting = get_object_or_404(Posting, pk=pk)
+    liked = False
+    if posting.likes.filter(id=request.user.id).exists():
+        posting.likes.remove(request.user)
+    else:
+        posting.likes.add(request.user)
+        liked = True
+    
+    # Check if the request is an AJAX request
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({'likes': posting.total_likes(), 'liked': liked})
+
+    return redirect('home')

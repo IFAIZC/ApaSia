@@ -1,5 +1,5 @@
 from django.urls import path, include
-from . import views
+from . import views 
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -8,4 +8,5 @@ urlpatterns = [
     path('delete/<int:pk>/', views.delete_post, name='delete_post'),
     path('edit/<int:pk>/', views.edit_post, name='edit_post'),
     path('update_profile/', views.update_profile, name='update_profile'),
+    path('like/<int:pk>/', views.like_post, name="like_post"),
 ]

@@ -7,7 +7,7 @@ from django.contrib import messages
 
 def login_user(request):
     if request.user.is_authenticated:
-        return redirect('home')  # Redirect if user is already authenticated. This makes login users not having access to login pages.
+        return redirect('home')  # Redirect if user is already authenticated.
     else:
         if request.method == 'POST':
             username = request.POST.get('username')
@@ -17,9 +17,11 @@ def login_user(request):
             if user is not None:
                 login(request, user)
                 return redirect('home')
+            else:
+                # Add an error message if authentication fails
+                messages.error(request, 'Invalid username or password.')
         
-        else:   
-            return render(request, "authenticate/login_user.html", {})
+        return render(request, "authenticate/login_user.html", {})
 
 
 def register_user(request):

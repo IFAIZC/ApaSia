@@ -5,7 +5,7 @@
     <h2 class="text-center mb-5 text-primary">Home Feeds</h2>
 
     {% for post in posts %}
-        <div class="card mb-4 shadow-lg border-0">
+        <div class="card mb-4 shadow-lg border-0" id="post-{{ post.pk }}">
             <div class="card-body p-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div class="d-flex align-items-center">
@@ -15,14 +15,32 @@
                         </div>
                     </div>
                 </div>
+
                 <p class="card-text bg-light p-3 rounded">{{ post.content }}</p>
 
-                <!-- Post Actions -->
-                <div class="d-flex justify-content-end mt-3">
-                    {% if post.user == request.user %}
-                        <a href="{% url 'edit_post' post.pk %}" class="btn btn-sm btn-outline-primary me-2">Edit</a>
-                        <a href="{% url 'delete_post' post.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                <!-- Display the total likes -->
+                <p class="card-text">
+                    <strong id="like-count-{{ post.pk }}">{{ post.total_likes }} {{ post.total_likes|pluralize:"Like,Likes" }}</strong>
+                </p>
+
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    {% if user.is_authenticated %}
+                        <button class="btn btn-outline-primary like-button me-2" data-post-id="{{ post.pk }}">
+                            {% if user in post.likes.all %}
+                                Unlike
+                            {% else %}
+                                Like
+                            {% endif %}
+                        </button>
                     {% endif %}
+
+                    <!-- Post Actions -->
+                    <div class="d-flex">
+                        {% if post.user == request.user %}
+                            <a href="{% url 'edit_post' post.pk %}" class="btn btn-outline-primary me-2">Edit</a>
+                            <a href="{% url 'delete_post' post.pk %}" class="btn btn-outline-danger">Delete</a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -32,4 +50,36 @@
         </div>
     {% endfor %}
 </div>
+
+<!-- AJAX Script -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.like-button').click(function(e) {
+            e.preventDefault();
+            var post_id = $(this).data('post-id');
+            var button = $(this);
+            $.ajax({
+                type: 'POST',
+                url: '{% url "like_post" 0 %}'.replace('0', post_id),
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    // Update the like count
+                    $('#like-count-' + post_id).text(response.likes + ' ' + (response.likes === 1 ? 'Like' : 'Likes'));
+
+                    // Toggle the button text
+                    if (response.liked) {
+                        button.text('Unlike');
+                        button.removeClass('btn-outline-primary').addClass('btn-outline-danger');
+                    } else {
+                        button.text('Like');
+                        button.removeClass('btn-outline-danger').addClass('btn-outline-primary');
+                    }
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

@@ -9,6 +9,14 @@
                     <h2 class="text-center mb-0">Log In</h2>
                 </div>
                 <div class="card-body">
+                    {% if messages %}
+                        <div class="alert alert-danger">
+                            {% for message in messages %}
+                                <p class="mb-0">{{ message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    
                     <form method="POST" action="{% url 'login_user' %}">
                         {% csrf_token %}
                         
