@@ -3,3 +3,5 @@ __init__.py
 settings.py
 asgi.py
 wsgi.py
+
+static/
