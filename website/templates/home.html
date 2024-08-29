@@ -7,17 +7,23 @@
     {% for post in posts %}
         <div class="card mb-4 shadow-lg border-0" id="post-{{ post.pk }}">
             <div class="card-body p-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div class="d-flex align-items-center">
-                        <div>
-                            <h6 class="card-title mb-0 text-primary">{{ post.user.username }}</h6>
-                            <small class="text-muted">{{ post.created_at|date:"F j, Y, g:i a" }}</small>
-                        </div>
+                <div class="d-flex align-items-center mb-3">
+                    <!-- Profile Picture Section -->
+                    <div class="me-3">
+                        {% if post.user.userprofile.profile_picture %}
+                            <img src="{{ post.user.userprofile.profile_picture.url }}" alt="Profile Picture" class="img-fluid rounded-circle" style="max-width: 60px;">
+                        {% else %}
+                            <img src="{{ default_profile_picture }}" alt="Default Profile Picture" class="img-fluid rounded-circle" style="max-width: 60px;"> <!-- to display default picture, refer views.py>def home -->
+                        {% endif %}
+                    </div>
+                    <div>
+                        <h6 class="card-title mb-0 text-primary">{{ post.user.username }}</h6>
+                        <small class="text-muted">{{ post.created_at|date:"F j, Y, g:i a" }}</small>
                     </div>
                 </div>
-
-                <p class="card-text bg-light p-3 rounded">{{ post.content }}</p>
-
+                
+                <p class="card-text bg-light p-3 rounded mb-3">{{ post.content }}</p>
+                
                 <!-- Display the total likes -->
                 <p class="card-text">
                     <strong id="like-count-{{ post.pk }}">{{ post.total_likes }} {{ post.total_likes|pluralize:"Like,Likes" }}</strong>

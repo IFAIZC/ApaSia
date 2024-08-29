@@ -9,4 +9,4 @@ urlpatterns = [
     path('edit/<int:pk>/', views.edit_post, name='edit_post'),
     path('update_profile/', views.update_profile, name='update_profile'),
     path('like/<int:pk>/', views.like_post, name="like_post"),
-]
+] 

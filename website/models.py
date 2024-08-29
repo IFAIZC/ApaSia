@@ -7,6 +7,7 @@ class UserProfile(models.Model):
     bio = models.TextField(blank=True, null=True)
     occupation = models.CharField(blank=True, null=True, max_length=500)
     age = models.IntegerField(blank=True, null=True)
+    profile_picture = models.ImageField(null=True, blank=True) #LATEST! working on displaying profile picture. 28/8/2024 ** also, might need to change the null to something else.
     
     def __str__(self):
         return self.user.username
