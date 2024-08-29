@@ -4,4 +4,4 @@ settings.py
 asgi.py
 wsgi.py
 
-static/media/
+static/
