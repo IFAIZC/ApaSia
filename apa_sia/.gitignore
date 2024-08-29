@@ -5,5 +5,3 @@ asgi.py
 wsgi.py
 
 static/media/
-
-
