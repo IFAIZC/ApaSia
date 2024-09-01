@@ -8,11 +8,9 @@ from django.http import JsonResponse
 @login_required(login_url='login_user')
 def home(request):
     posts = Posting.objects.all().order_by('-created_at').select_related('user__userprofile') ###.select_related('user__profile') selects the user's post and its user profile to display.###
-    default_profile_picture = 'static/media/default.png' ### to display default profile picture.###
 
     context = {
         'posts': posts,
-        'default_profile_picture': default_profile_picture
     }
     return render(request, "home.html", context)
 
@@ -30,7 +28,7 @@ def profile_page(request):
         
     context = {
         'form': form,
-        'user_profile': user_profile
+        'user_profile': user_profile,
     }
     return render(request, 'profile_page.html', context)
 
@@ -83,9 +81,10 @@ def update_profile(request):
     else:
         form = UserProfileForm(instance=user_profile)
         
+        
     context = {
         'form': form,
-        'user_profile': user_profile
+        'user_profile': user_profile,
     }
     return render(request, 'update_profile.html', context)
 

@@ -10,11 +10,7 @@
                 <div class="d-flex align-items-center mb-3">
                     <!-- Profile Picture Section -->
                     <div class="me-3">
-                        {% if post.user.userprofile.profile_picture %}
                             <img src="{{ post.user.userprofile.profile_picture.url }}" alt="Profile Picture" class="img-fluid rounded-circle" style="max-width: 60px;">
-                        {% else %}
-                            <img src="{{ default_profile_picture }}" alt="Default Profile Picture" class="img-fluid rounded-circle" style="max-width: 60px;"> <!-- to display default picture, refer views.py>def home -->
-                        {% endif %}
                     </div>
                     <div>
                         <h6 class="card-title mb-0 text-primary">{{ post.user.username }}</h6>

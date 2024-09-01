@@ -4,8 +4,8 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-4">
-            <div class="card shadow-lg">
-                <div class="card-header bg-primary text-white">
+            <div class="card shadow border-0 rounded-lg">
+                <div class="card-header bg-primary text-white rounded-top">
                     <h2 class="text-center mb-0">Log In</h2>
                 </div>
                 <div class="card-body">
@@ -20,24 +20,24 @@
                     <form method="POST" action="{% url 'login_user' %}">
                         {% csrf_token %}
                         
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control rounded-pill" id="username" name="username" placeholder="Username" required>
+                            <label for="username">Username</label>
                         </div>
                         
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control rounded-pill" id="password" name="password" placeholder="Password" required>
+                            <label for="password">Password</label>
                         </div>
                         
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Log In</button>
+                            <button type="submit" class="btn btn-primary rounded-pill btn-lg">Log In</button>
                         </div>
                     </form>
                 </div>
-                <div class="card-footer text-center">
+                <div class="card-footer text-center bg-light rounded-bottom">
                     <p class="mb-0">
-                        Don't have an account? <a href="{% url 'register_user' %}" class="text-primary">Register Here</a>
+                        Don't have an account? <a href="{% url 'register_user' %}" class="text-primary fw-bold">Register Here</a>
                     </p>
                 </div>
             </div>
