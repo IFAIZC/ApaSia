@@ -7,12 +7,24 @@ from django.http import JsonResponse
 
 @login_required(login_url='login_user')
 def home(request):
-    posts = Posting.objects.all().order_by('-created_at').select_related('user__userprofile') ###.select_related('user__profile') selects the user's post and its user profile to display.###
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            posting = form.save(commit=False)
+            posting.user = request.user
+            posting.save()
+            return redirect('home')
+    else:
+        form = PostForm()
 
+    posts = Posting.objects.all().order_by('-created_at').select_related('user__userprofile')
+    
     context = {
+        'form': form,
         'posts': posts,
     }
     return render(request, "home.html", context)
+
 
 @login_required(login_url='login_user')
 def profile_page(request):
